@@ -9,10 +9,10 @@ import time
 import socket
 from typing import List
 
-from xwr_raw.radar_config import RadarConfig
-from xwr_raw.radar_cli import RadarCLI
-from xwr_raw.dca1000 import DCA1000
-from xwr_raw.frame_buffer import FrameBuffer
+from xwr_raw_ros.radar_config import RadarConfig
+from xwr_raw_ros.radar_cli import RadarCLI
+from xwr_raw_ros.dca1000 import DCA1000
+from xwr_raw_ros.frame_buffer import FrameBuffer
 
 
 class RadarPub():
