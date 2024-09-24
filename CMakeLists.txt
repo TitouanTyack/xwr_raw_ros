@@ -22,14 +22,22 @@ include_directories(include)
 
 
 # Create Cpp executable --------
-# add_executable(recver src/recver.cpp)
-# ament_target_dependencies(recver rclcpp)
+add_executable(recver 
+  src/recver.cpp
+  src/nodes/recver_node.cpp)
+target_include_directories(recver PUBLIC
+$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+$<INSTALL_INTERFACE:include>)
+ament_target_dependencies(
+  recver
+  "rclcpp"
+  "xwr_raw_ros_msgs")
 
 # Install Cpp executables --------
-# install(TARGETS
-#   cpp_executable
-#   DESTINATION lib/${PROJECT_NAME}
-# )
+install(TARGETS
+  recver
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 # target_link_libraries(publish_address_book "${cpp_typesupport_target}")
 
@@ -39,6 +47,7 @@ ament_python_install_package(${PROJECT_NAME})
 # Install Python executables
 install(PROGRAMS
   scripts/radar_cfg.py
+  scripts/visra.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -47,6 +56,7 @@ install(DIRECTORY
         launch
         DESTINATION share/${PROJECT_NAME}/
 )
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME} DESTINATION include)
 
 # if(BUILD_TESTING)
 #   find_package(ament_lint_auto REQUIRED)

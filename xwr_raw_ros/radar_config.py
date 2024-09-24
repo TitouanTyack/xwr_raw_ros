@@ -157,6 +157,8 @@ class RadarConfig(OrderedDict):
         # rx_phase_bias = [a + 1j*b for a,b in zip(self['compRangeBiasAndRxChanPhase'][1::2],
         #                                          self['compRangeBiasAndRxChanPhase'][2::2])]
         rx_phase_bias = self['compRangeBiasAndRxChanPhase'][1:]
+        for k,x in enumerate(rx_phase_bias):
+            rx_phase_bias[k] = float(x)
 
         operating_freq = self['profileCfg'][0][1]                         # Units in GHz
         chirp_time  = self['profileCfg'][0][2] + self['profileCfg'][0][4] # Idle time + ramp time, Units in usec
