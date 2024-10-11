@@ -30,7 +30,7 @@ class RadarCfg(Node):
 
         # Read path to config file.
         self.cfg           = self.declare_parameter("cfg",           "")
-        self.cmd_tty       = self.declare_parameter("cmd_tty",       '/dev/ttyACM0',   )
+        self.cmd_tty       = self.declare_parameter("cmd_tty",       '/dev/tty1843_00',   )
         self.dca_ip        = self.declare_parameter("dca_ip",        '192.168.33.180', )
         self.dca_cmd_port  = self.declare_parameter("dca_cmd_port",  4096,             )
         self.host_ip       = self.declare_parameter("host_ip",       '192.168.33.30',  )

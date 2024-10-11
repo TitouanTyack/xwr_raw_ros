@@ -48,6 +48,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   scripts/radar_cfg.py
   scripts/visra.py
+  scripts/visda.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

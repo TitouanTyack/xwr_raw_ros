@@ -13,20 +13,20 @@ from xwr_raw_ros.radar_config import RadarConfig
 from xwr_raw_ros.radar_cli import RadarCLI
 from xwr_raw_ros.dca1000 import DCA1000
 from xwr_raw_ros.frame_buffer import FrameBuffer
-
+from rclpy.logging import get_logger
 
 class RadarPub():
     """Radar data publisher. Consists of a DCA1000 and a RadarCLI.
     """
     def __init__(self,
                  cfg            : List[str],
-                 cmd_tty        : str = '/dev/ttyUSB0',
+                 cmd_tty        : str = '/dev/tty1843_00',
                  dca_ip         : str = '192.168.33.181',
                  dca_cmd_port   : int = 5096,
                  host_ip        : str = '192.168.33.30',
                  host_cmd_port  : int = 5096,
                  host_data_port : int = 5098):
-
+        
         self.config = RadarConfig(cfg)
         self.params = self.config.get_params()
         self.radar_cli = RadarCLI(cmd_tty)
@@ -76,7 +76,7 @@ class DCAPub():
                  host_ip        : str = '192.168.33.30',
                  host_cmd_port  : int = 5096,
                  host_data_port : int = 5098):
-
+        
         self.config = RadarConfig(cfg)
         self.params = self.config.get_params()
         self.dca1000 = DCA1000(dca_ip,

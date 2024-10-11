@@ -5,7 +5,7 @@
 
 import socket
 import struct
-
+from rclpy.logging import get_logger
 class DCA1000():
 
     # dca1000evm configuration commands; only the ones used are filled in
@@ -33,7 +33,8 @@ class DCA1000():
                  host_ip        : str = '192.168.33.30',
                  host_cmd_port  : int = 4096,
                  host_data_port : int = 4098):
-
+        get_logger("rclpy").info("dca_ip")
+        get_logger("rclpy").info(str(dca_ip))
         self.dca_cmd_addr   = (dca_ip,  dca_cmd_port)
         self.host_cmd_addr  = (host_ip, host_cmd_port)
         self.host_data_addr = (host_ip, host_data_port)

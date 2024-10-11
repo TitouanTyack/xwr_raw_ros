@@ -148,6 +148,10 @@ public:
     int                 n_samples;
     std::vector<int>    shape;
     bool parameter_flag;
+    rclcpp::Clock clocker;
+    rclcpp::Time current_stamp;
+    bool first_stamp;
+    int msg_counter;
 
     std::shared_ptr<rclcpp::AsyncParametersClient> parameters_client;
     void callbackGlobalParam(std::shared_future<std::vector<rclcpp::Parameter>> future);

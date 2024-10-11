@@ -102,7 +102,6 @@ void Recver::update(void)
         unsigned int bytec = 0;
         while(rclcpp::ok())
         {
-        // if(!parameter_flag)
         unsigned char buffer[2048];
 
         // read content into buffer from an incoming client
@@ -118,7 +117,33 @@ void Recver::update(void)
         /* auto t2 = chrono::high_resolution_clock::now(); */
         /* chrono::duration<double, std::milli> ms_double = t2 - t1; */
         /* cout << ms_double.count() << "ms\n"; */
-
+        if(first_stamp)
+        {
+            current_stamp = rclcpp::Time(clocker.now());
+            msg_counter = 1;
+            first_stamp = false;
+        }
+        else
+        {
+            if(current_stamp==rclcpp::Time(clocker.now()))
+            {
+                double t_s = (double)(msg_counter*frame_time) * 1e-6;
+                int sec = (int)(std::floor(t_s));
+                int nsec = (int)((t_s - (double)sec) * 1e9);
+                frame.header.stamp =  clocker.now() + rclcpp::Duration(sec,nsec);
+                // pc2_msg_->header.stamp.nanosec + msg_counter*frame_time*1e3;
+                msg_counter = msg_counter+1;
+            }
+            else
+            {
+                msg_counter = 1;
+                current_stamp=rclcpp::Time(clocker.now());
+                frame.header.stamp = current_stamp;
+            }
+        }
+        // rclcpp::Time stamp(static_cast<long int>(clocker.now().seconds()) * 1000ull);
+        // 
+        
         if (frame_data){
             frame.data.assign((int16_t *)frame_data, (int16_t *)(frame_data + frame_buffer.frame_size));
             pub_radar_frame->publish(frame);

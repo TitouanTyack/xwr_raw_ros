@@ -135,19 +135,11 @@ def vis_range_azimuth(frame):
 
 def main(args=None):
     rclpy.init(args=args)
-    # parser = argparse.ArgumentParser()
-    # args = parser.parse_args(rospy.myargv()[1:])
 
-    # rospy.init_node()
-    # rclpy.init(args=args)
-    node = rclpy.create_node('visualizer')
+    node = rclpy.create_node('ra_visualizer')
     subscriber_radar = node.create_subscription(RadarFrameFull,'radar_data',lambda frame: vis_range_azimuth(frame),1)
-    # subscriber_radar = rospy.Subscriber('radar_data',
-    #                                     numpy_msg(RadarFrameFull),
-    #                                     lambda frame: vis_range_azimuth(frame),
-    #                                     queue_size=1)
+
     rclpy.spin(node)
-    # rospy.spin()
 
 
 if __name__ == '__main__':
