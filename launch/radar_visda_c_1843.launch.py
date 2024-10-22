@@ -27,32 +27,32 @@ def generate_launch_description():
         ti_mmwave_dir = get_package_share_directory('ti_mmwave_rospkg')
 
         # Declare Launch Arguments
-        radar1                = DeclareLaunchArgument('radar1',               default_value='radar1')
-        radar1_cfg            = DeclareLaunchArgument('radar1_cfg',           default_value='1843/1843_doppler_v1.cfg')
-        radar1_cmd_tty        = DeclareLaunchArgument('radar1_cmd_tty',       default_value='/dev/tty1843_00')
-        radar1_data_tty       = DeclareLaunchArgument('radar1_data_tty',      default_value='/dev/tty1843_03')
-        radar1_dca_ip         = DeclareLaunchArgument('radar1_dca_ip',        default_value='192.168.33.180')
-        radar1_dca_cmd_port   = DeclareLaunchArgument('radar1_dca_cmd_port',  default_value='4096')
-        radar1_host_ip        = DeclareLaunchArgument('radar1_host_ip',       default_value='192.168.33.30')
-        radar1_host_cmd_port  = DeclareLaunchArgument('radar1_host_cmd_port', default_value='4096')
-        radar1_host_data_port = DeclareLaunchArgument('radar1_host_data_port',default_value='4098')
+        radar                = DeclareLaunchArgument('radar',               default_value='radar_0')
+        radar_cfg            = DeclareLaunchArgument('radar_cfg',           default_value='1843/1843_doppler_v1.cfg')
+        radar_cmd_tty        = DeclareLaunchArgument('radar_cmd_tty',       default_value='/dev/tty1843_00')
+        radar_data_tty       = DeclareLaunchArgument('radar_data_tty',      default_value='/dev/tty1843_03')
+        radar_dca_ip         = DeclareLaunchArgument('radar_dca_ip',        default_value='192.168.33.180')
+        radar_dca_cmd_port   = DeclareLaunchArgument('radar_dca_cmd_port',  default_value='4096')
+        radar_host_ip        = DeclareLaunchArgument('radar_host_ip',       default_value='192.168.33.30')
+        radar_host_cmd_port  = DeclareLaunchArgument('radar_host_cmd_port', default_value='4096')
+        radar_host_data_port = DeclareLaunchArgument('radar_host_data_port',default_value='4098')
 
-        config_path = DeclareLaunchArgument('config_path', default_value=[xwr_rawr_ros_dir,'/configs/',LaunchConfiguration('radar1_cfg')])
-        tf_map_radar1 = ['0.5', '-0.15', '0.0', '0.0', '0.0', '0.0', 'map', 'radar1']
+        config_path = DeclareLaunchArgument('config_path', default_value=[xwr_rawr_ros_dir,'/configs/',LaunchConfiguration('radar_cfg')])
+        tf_map_radar = ['0.5', '-0.15', '0.0', '0.0', '0.0', '0.0', 'map', 'radar_0']
 
         # Declare Nodes
         radar_cfg = Node(
                 package='xwr_raw_ros',
                 executable='radar_cfg.py',
                 name='xwr_radar',
-                namespace=LaunchConfiguration('radar1') ,
+                namespace=LaunchConfiguration('radar') ,
                 output='screen',
                 parameters=[{"cfg": LaunchConfiguration('config_path'),
-                             "host_ip": LaunchConfiguration('radar1_host_ip'),
-                             "host_data_port": LaunchConfiguration('radar1_host_data_port'),
-                             "host_cmd_port": LaunchConfiguration('radar1_host_cmd_port'),
-                             "cmd_tty":LaunchConfiguration('radar1_cmd_tty'),
-                             "dca_ip":LaunchConfiguration('radar1_dca_ip'),}
+                             "host_ip": LaunchConfiguration('radar_host_ip'),
+                             "host_data_port": LaunchConfiguration('radar_host_data_port'),
+                             "host_cmd_port": LaunchConfiguration('radar_host_cmd_port'),
+                             "cmd_tty":LaunchConfiguration('radar_cmd_tty'),
+                             "dca_ip":LaunchConfiguration('radar_dca_ip'),}
                 ],
                 )
         
@@ -60,10 +60,10 @@ def generate_launch_description():
                 package='xwr_raw_ros',
                 executable='recver',
                 name='xwr_recver',
-                namespace=LaunchConfiguration('radar1') ,
+                namespace=LaunchConfiguration('radar') ,
                 output='screen',
-                parameters=[{"host_ip": LaunchConfiguration('radar1_host_ip'),
-                             "host_data_port": LaunchConfiguration('radar1_host_data_port')}
+                parameters=[{"host_ip": LaunchConfiguration('radar_host_ip'),
+                             "host_data_port": LaunchConfiguration('radar_host_data_port')}
                 ],
                 prefix="bash -c 'sleep 2.0; $0 $@' ",
                 )
@@ -72,7 +72,7 @@ def generate_launch_description():
                 package='xwr_raw_ros',
                 executable='visda.py',
                 name='xwr_da_visualizer',
-                namespace=LaunchConfiguration('radar1') ,
+                namespace=LaunchConfiguration('radar') ,
                 output='screen',
                 )
         
@@ -82,47 +82,31 @@ def generate_launch_description():
                 name="DataHandlerClass",
                 output="screen",
                 emulate_tty=True,
-                namespace=LaunchConfiguration('radar1'),
+                namespace=LaunchConfiguration('radar'),
                 parameters=[
                 {"mmwavecli_name": "/mmWaveCLI"},
                 {"mmwavecli_cfg": LaunchConfiguration('config_path')},
-                {"data_port": LaunchConfiguration('radar1_data_tty')},
+                {"data_port": LaunchConfiguration('radar_data_tty')},
                 {"data_rate": "921600"},
-                {"frame_id": LaunchConfiguration('radar1')}
+                {"frame_id": LaunchConfiguration('radar')}
                 ],
                 prefix="bash -c 'sleep 2.0; $0 $@' ",
                 )
-        
-        tf_static_map_radar = Node(
-                package='tf2_ros',
-                executable='static_transform_publisher',
-                name="tf_static_map_radar",
-                arguments = tf_map_radar1,
-        )
-    
-        Rviz2 = Node(
-                package='rviz2',
-                executable='rviz2',
-                namespace=LaunchConfiguration('radar1'),
-                arguments=['-d', os.path.join(ti_mmwave_dir, 'launch', 'rviz.rviz')]
-        )
 
         return LaunchDescription([GroupAction(
         actions=[
-                radar1,
-                radar1_cfg,
-                radar1_cmd_tty,
-                radar1_data_tty,
-                radar1_dca_ip,
-                radar1_dca_cmd_port,
-                radar1_host_ip,
-                radar1_host_cmd_port,
-                radar1_host_data_port,
+                radar,
+                radar_cfg,
+                radar_cmd_tty,
+                radar_data_tty,
+                radar_dca_ip,
+                radar_dca_cmd_port,
+                radar_host_ip,
+                radar_host_cmd_port,
+                radar_host_data_port,
                 config_path,
                 radar_cfg,
                 recver,
                 visda,
                 DataHandlerClass,
-                tf_static_map_radar,
-                Rviz2
         ])])
