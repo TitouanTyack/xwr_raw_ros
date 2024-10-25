@@ -28,7 +28,7 @@ def generate_launch_description():
 
         # Declare Launch Arguments
         radar                = DeclareLaunchArgument('radar',               default_value='radar_0')
-        radar_cfg            = DeclareLaunchArgument('radar_cfg',           default_value='1843/1843_doppler_v2.cfg')
+        radar_cfg            = DeclareLaunchArgument('radar_cfg',           default_value='1843/1843_doppler_v0.cfg')
         radar_cmd_tty        = DeclareLaunchArgument('radar_cmd_tty',       default_value='/dev/tty1843_00')
         radar_data_tty       = DeclareLaunchArgument('radar_data_tty',      default_value='/dev/tty1843_03')
         radar_dca_ip         = DeclareLaunchArgument('radar_dca_ip',        default_value='192.168.33.180')
@@ -41,7 +41,7 @@ def generate_launch_description():
         tf_map_radar = ['0.5', '-0.15', '0.0', '0.0', '0.0', '0.0', 'map', 'radar_0']
 
         # Declare Nodes
-        radar_cfg = Node(
+        xwr_radar = Node(
                 package='xwr_raw_ros',
                 executable='radar_cfg.py',
                 name='xwr_radar',
@@ -105,8 +105,8 @@ def generate_launch_description():
                 radar_host_cmd_port,
                 radar_host_data_port,
                 config_path,
-                radar_cfg,
-                recver,
-                visda,
+                xwr_radar,
+                # recver,
+                # visda,
                 DataHandlerClass,
         ])])

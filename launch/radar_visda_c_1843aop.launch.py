@@ -40,7 +40,7 @@ def generate_launch_description():
         tf_map_radar = ['0.0', '0.0', '0.0', '0.0', '0.0', '0.0', 'map', 'radar_1']
 
         # Declare Nodes
-        radar_cfg = Node(
+        xwr_radar = Node(
                 package='xwr_raw_ros',
                 executable='radar_cfg.py',
                 name='xwr_radar',
@@ -104,7 +104,7 @@ def generate_launch_description():
                 radar_host_cmd_port,
                 radar_host_data_port,
                 config_path,
-                radar_cfg,
+                xwr_radar,
                 recver,
                 visda,
                 DataHandlerClass,

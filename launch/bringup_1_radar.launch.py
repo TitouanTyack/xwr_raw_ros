@@ -34,16 +34,19 @@ def generate_launch_description():
                 'launch',
                 'radar_visda_c_1843.launch.py'])
                 # Launch Descriptions
+
                 radar = IncludeLaunchDescription(
                         PythonLaunchDescriptionSource(radar_launch),
                         launch_arguments=[
                         ('radar', 'radar_0'),
                         ],
                 )
+
                 tf_map_radar = ['0.2', '-0.15', '0.0', '0.0', '0.0', '0.0', 'map', 'radar_0']
                 
         elif(radar_name=='1843aop'):
                 # Find launchs
+
                 radar_launch = PathJoinSubstitution([ # range azimuth mode for awr1843aop (rear) 
                 FindPackageShare('xwr_raw_ros'),
                 'launch',
@@ -60,7 +63,6 @@ def generate_launch_description():
         Rviz2 = Node(
                 package='rviz2',
                 executable='rviz2',
-                namespace=LaunchConfiguration('radar'),
                 arguments=['-d', os.path.join(ti_mmwave_dir, 'launch', 'rviz.rviz')]
         )
 
@@ -71,10 +73,8 @@ def generate_launch_description():
                 arguments = tf_map_radar,
         )
 
-        return LaunchDescription([GroupAction(
-        actions=[
-                radar_launch,
+        return LaunchDescription([
                 radar,
                 tf_static_map_radar,
                 Rviz2
-        ])])
+        ])

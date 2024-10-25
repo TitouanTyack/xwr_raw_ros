@@ -76,8 +76,6 @@ def generate_launch_description():
 
         return LaunchDescription([GroupAction(
         actions=[
-                awr1843_launch,
-                awr1843aop_launch,
                 awr1843,
                 awr1843aop,
                 tf_static_map_radar_0,
