@@ -28,7 +28,7 @@ def generate_launch_description():
 
         # Declare Launch Arguments
         radar                = DeclareLaunchArgument('radar',               default_value='radar_0')
-        radar_cfg            = DeclareLaunchArgument('radar_cfg',           default_value='1843/1843_doppler_v0.cfg')
+        radar_cfg            = DeclareLaunchArgument('radar_cfg',           default_value='1843/1843_doppler_v2.cfg')
         radar_cmd_tty        = DeclareLaunchArgument('radar_cmd_tty',       default_value='/dev/tty1843_00')
         radar_data_tty       = DeclareLaunchArgument('radar_data_tty',      default_value='/dev/tty1843_03')
         radar_dca_ip         = DeclareLaunchArgument('radar_dca_ip',        default_value='192.168.33.180')
@@ -106,7 +106,7 @@ def generate_launch_description():
                 radar_host_data_port,
                 config_path,
                 xwr_radar,
-                # recver,
-                # visda,
+                recver,
+                visda,
                 DataHandlerClass,
         ])])
