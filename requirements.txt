@@ -7,4 +7,3 @@ pillow
 imageio
 imageio-ffmpeg
 numba
-openvino

@@ -14,7 +14,6 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import cv2
 from collections import deque
-import openvino.runtime as ov
 
 import rclpy
 import rospkg
