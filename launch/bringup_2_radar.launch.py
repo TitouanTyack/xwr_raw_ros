@@ -26,7 +26,7 @@ def generate_launch_description():
         xwr_rawr_ros_dir = get_package_share_directory('xwr_raw_ros')
 
         tf_map_radar_0 = ['0.2', '-0.15', '0.0', '0.0', '0.0', '0.0', 'map', 'radar_0']
-        tf_map_radar_1 = ['-0.2', '0.15', '0.0', '1.57079632679', '0.0', '0.0', 'map', 'radar_1']
+        tf_map_radar_1 = ['0.2', '0.15', '0.0', '1.57079632679', '0.0', '0.0', 'map', 'radar_1']
 
         # Find launchs
         awr1843_launch = PathJoinSubstitution([    # doppler azimuth mode for awr1843 (front) 
@@ -37,13 +37,15 @@ def generate_launch_description():
         awr1843aop_launch = PathJoinSubstitution([ # range azimuth mode for awr1843aop (rear) 
             FindPackageShare('xwr_raw_ros'),
             'launch',
-            'radar_visra_c_1843aop.launch.py'])
+            'radar_visda_c_1843aop.launch.py'])
 
         # Launch Descriptions
         awr1843 = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(awr1843_launch),
                 launch_arguments=[
                 ('radar', 'radar_0'),
+                ('data_mode', '1'), # {1,2} 1 = pcl only, 2 = pcl + raw
+
                 ],
         )
 
@@ -51,6 +53,8 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource(awr1843aop_launch),
                 launch_arguments=[
                 ('radar', 'radar_1'),
+                ('data_mode', '1'), # {1,2} 1 = pcl only, 2 = pcl + raw
+
                 ],
         )
     

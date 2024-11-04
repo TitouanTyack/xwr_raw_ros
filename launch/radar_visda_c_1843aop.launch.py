@@ -27,7 +27,7 @@ def generate_launch_description():
         ti_mmwave_dir = get_package_share_directory('ti_mmwave_rospkg')
 
         radar                = DeclareLaunchArgument('radar',               default_value='radar_1')
-        radar_cfg            = DeclareLaunchArgument('radar_cfg',           default_value='1843aop/1843aop_doppler_v0.cfg')
+        radar_cfg            = DeclareLaunchArgument('radar_cfg',           default_value='1843aop/1843aop_doppler_calib.cfg')
         radar_cmd_tty        = DeclareLaunchArgument('radar_cmd_tty',       default_value='/dev/ttyISK_00')
         radar_data_tty       = DeclareLaunchArgument('radar_data_tty',      default_value='/dev/ttyISK_01')
         radar_dca_ip         = DeclareLaunchArgument('radar_dca_ip',        default_value='192.168.34.181')
@@ -35,6 +35,7 @@ def generate_launch_description():
         radar_host_ip        = DeclareLaunchArgument('radar_host_ip',       default_value='192.168.34.31')
         radar_host_cmd_port  = DeclareLaunchArgument('radar_host_cmd_port', default_value='4096')
         radar_host_data_port = DeclareLaunchArgument('radar_host_data_port',default_value='4098')
+        data_mode            = DeclareLaunchArgument('data_mode',           default_value='1') # {1,2} 1 = pcl only, 2 = pcl + raw
 
         config_path = DeclareLaunchArgument('config_path', default_value=[xwr_rawr_ros_dir,'/configs/',LaunchConfiguration('radar_cfg')])
         tf_map_radar = ['0.0', '0.0', '0.0', '0.0', '0.0', '0.0', 'map', 'radar_1']
@@ -51,7 +52,8 @@ def generate_launch_description():
                              "host_data_port": LaunchConfiguration('radar_host_data_port'),
                              "host_cmd_port": LaunchConfiguration('radar_host_cmd_port'),
                              "cmd_tty":LaunchConfiguration('radar_cmd_tty'),
-                             "dca_ip":LaunchConfiguration('radar_dca_ip'),}
+                             "dca_ip":LaunchConfiguration('radar_dca_ip'),
+                             "data_mode":LaunchConfiguration('data_mode'),}
                 ],
                 )
         
@@ -103,6 +105,7 @@ def generate_launch_description():
                 radar_host_ip,
                 radar_host_cmd_port,
                 radar_host_data_port,
+                data_mode,
                 config_path,
                 xwr_radar,
                 recver,

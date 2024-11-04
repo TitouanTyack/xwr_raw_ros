@@ -22,7 +22,7 @@ from launch_ros.descriptions import ComposableNode
 import launch_ros.actions
 
 def generate_launch_description():
-        radar_name = ('1843aop') # {1843, 1843aop}
+        radar_name = ('1843') # {1843, 1843aop}
 
         ti_mmwave_dir = get_package_share_directory('ti_mmwave_rospkg')
 
@@ -32,13 +32,14 @@ def generate_launch_description():
                 radar_launch = PathJoinSubstitution([    # doppler azimuth mode for awr1843 (front) 
                 FindPackageShare('xwr_raw_ros'),
                 'launch',
-                'radar_visra_c_1843.launch.py'])
+                'radar_visda_c_1843.launch.py'])
                 # Launch Descriptions
 
                 radar = IncludeLaunchDescription(
                         PythonLaunchDescriptionSource(radar_launch),
                         launch_arguments=[
                         ('radar', 'radar_0'),
+                        ('data_mode', '1'), # {1,2} 1 = pcl only, 2 = pcl + raw
                         ],
                 )
 
@@ -56,9 +57,10 @@ def generate_launch_description():
                         PythonLaunchDescriptionSource(radar_launch),
                         launch_arguments=[
                         ('radar', 'radar_1'),
+                        ('data_mode', '1'), # {1,2} 1 = pcl only, 2 = pcl + raw
                         ],
                 )
-                tf_map_radar = ['-0.2', '0.15', '0.0', '1.57079632679', '0.0', '0.0', 'map', 'radar_1']
+                tf_map_radar = ['0.2', '0.15', '0.0', '1.57079632679', '0.0', '0.0', 'map', 'radar_1']
 
         Rviz2 = Node(
                 package='rviz2',
