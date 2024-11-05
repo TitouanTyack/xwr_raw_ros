@@ -25,13 +25,14 @@ from datetime import datetime
 
 now = datetime.now()
 date_str = now.strftime("%Y%m%d-%H%M%S")
+prefix = str("calib_bi_radar_2")
 
 def launch_setup_pcl_imu(context, *args,**kwargs):
 
     return [
         ExecuteProcess(
             cmd=['ros2', 'bag', 'record',
-                '--output', f'bag/radar_log/isae_calib_3d_bi_radar-{date_str}',
+                '--output', f'bag/radar_log/{prefix}-{date_str}',
                 '--max-bag-duration', str(60*10),
                 '/imu/data',
                 '/radar_0/ti_mmwave/radar_scan_pcl',
@@ -46,7 +47,7 @@ def launch_setup_raw_data(context, *args,**kwargs):
     return [
         ExecuteProcess(
             cmd=['ros2', 'bag', 'record',
-                '--output', f'bag/radar_log/isae_meca_raw_data-{date_str}',
+                '--output', f'bag/radar_log/{prefix}-{date_str}',
                 '--max-bag-duration', str(60*10),
                 '/radar_0/radar_data',
                 '/radar_1/radar_data',
@@ -60,7 +61,7 @@ def launch_setup_full(context, *args,**kwargs):
     return [
         ExecuteProcess(
             cmd=['ros2', 'bag', 'record',
-                '--output', f'bag/radar_log/isae_meca_full-{date_str}',
+                '--output', f'bag/radar_log/{prefix}-{date_str}',
                 '--max-bag-duration', str(60*10),
                 '/imu/data',
                 '/radar_0/radar_data',
